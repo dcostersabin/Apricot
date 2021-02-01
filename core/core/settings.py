@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'benchmark',
     'questions',
     'submission',
+    'codeAnalyzer',
 ]
 
 AUTH_USER_MODEL = 'users.User'
