@@ -21,5 +21,3 @@ class AllBenchmark(graphene.ObjectType):
         prev_submission = Submission.objects.get(user_id=user)
         prev_bench = Benchmark.objects.get(submission_id=prev_submission)
         return prev_bench
-
-

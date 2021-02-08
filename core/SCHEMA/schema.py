@@ -8,6 +8,7 @@ from SCHEMA.SubmissionSchemas.UpdateSubmissionMutation import UpdateSubmissionMu
 from SCHEMA.BenchmarkSchemas.AddBenchmarMutation import AddBenchmarMutation
 from SCHEMA.BenchmarkSchemas.AllBenchmarkQuery import AllBenchmark
 
+
 class AuthMutation(graphene.ObjectType):
     register = mutations.Register.Field()
     resend_activation_email = mutations.ResendActivationEmail.Field()
@@ -28,11 +29,11 @@ class BenchmarkMutation(graphene.ObjectType):
     add_benchmark = AddBenchmarMutation.Field()
 
 
-class Query(UserQuery, AllQuestion,AllBenchmark, MeQuery, graphene.ObjectType):
+class Query(UserQuery, AllQuestion, AllBenchmark, MeQuery, graphene.ObjectType):
     pass
 
 
-class Mutation(AuthMutation, QuestionMutation, SubmissionMutation,BenchmarkMutation, graphene.ObjectType):
+class Mutation(AuthMutation, QuestionMutation, SubmissionMutation, BenchmarkMutation, graphene.ObjectType):
     pass
 
 

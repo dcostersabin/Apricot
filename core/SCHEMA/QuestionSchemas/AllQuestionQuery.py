@@ -42,7 +42,7 @@ class AllQuestion(graphene.ObjectType):
                     # getting all question
                     question = Question.objects.all()
                     # selecting random question from the questio array
-                    random_question = randint(0, no_question)
+                    random_question = randint(0, no_question - 1)
                     get_question = question[random_question]
                     # set the question to the user
                     submission = Submission(user_id=user, questions_id=get_question)

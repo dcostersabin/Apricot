@@ -1,11 +1,8 @@
 from django.db import models
+from django.core.validators import MinLengthValidator
 
-
-# Create your models here.
 
 class Question(models.Model):
-    details = models.TextField(blank=False, verbose_name='details')
-    inputs = models.TextField(blank=False, verbose_name='inputs')
-    output = models.TextField(blank=False, verbose_name='output')
-
-
+    details = models.TextField(blank=False, verbose_name='details', null=False)
+    inputs = models.TextField(blank=False, verbose_name='inputs', null=False)
+    output = models.TextField(blank=False, verbose_name='output', null=False)
