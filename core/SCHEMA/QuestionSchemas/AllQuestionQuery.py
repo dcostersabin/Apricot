@@ -61,5 +61,5 @@ class AllQuestion(graphene.ObjectType):
         user = User.objects.get(email=email)
         if auth_user.email == user.email:
             submission = Submission.objects.get(user_id=user)
-            return Question()
+            return submission.questions_id
         raise PermissionError("You Are Not Authorized")

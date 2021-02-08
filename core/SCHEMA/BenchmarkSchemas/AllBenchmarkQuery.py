@@ -1,7 +1,6 @@
 import graphene
 from SCHEMA.BenchmarkSchemas.BenchmarkType import BenchmarkType
 from graphql_jwt.decorators import superuser_required
-from benchmark.models import Benchmark
 from submission.models import Submission
 from users.models import User
 from benchmark.models import Benchmark
