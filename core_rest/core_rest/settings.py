@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'questions',
     'submission',
     'rest_framework',
-    'rest_framework.authtoken'
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -96,7 +95,9 @@ WSGI_APPLICATION = 'core_rest.wsgi.application'
 
 AUTH_USER_MODEL = 'users.User'
 
+LOGIN_REDIRECT_URL = '/token'
 
+ACCOUNT_LOGOUT_REDIRECT_URL = '/log-out'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -155,3 +156,14 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
