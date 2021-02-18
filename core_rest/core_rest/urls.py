@@ -17,6 +17,11 @@ from django.contrib import admin
 from django.urls import path, include
 import users.views as userview
 from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView)
+import repodetails.urls as details
+import users.urls as user
+import questions.urls as questions
+import submission.urls as submission
+import benchmark.urls as benchmark
 
 urlpatterns = [
     path('root/', userview.bad_request, name='root'),
@@ -26,5 +31,10 @@ urlpatterns = [
     path('log-out/', userview.logout),
     path('auth/token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+    path('repo/', include(details)),
+    path('user/', include(user)),
+    path('questions/', include(questions)),
+    path('submission/', include(submission)),
+    path('benchmarks/', include(benchmark)),
 
 ]
