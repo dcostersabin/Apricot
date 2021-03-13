@@ -25,7 +25,7 @@ class RubyBenchmark:
         :param params: parameters for function testing
         """
         self.url = url
-        self.target_output = expected_output
+        self.target_output = str(expected_output)
         self.params = params
         self.repo_validity = RubyChecker(url=self.url, username=username, access_token=access_token,
                                          repo_name=repo_name).clone_check()
@@ -52,7 +52,9 @@ class RubyBenchmark:
         :return: None
         """
         try:
-            var = subprocess.run(["ruby", BASE_DIR + "/Ruby/RubyOutputGenerator.rb", str(self.params)], check=True,
+
+            var = subprocess.run(["ruby", BASE_DIR + "/Ruby/RubyOutputGenerator.rb", str(self.params)],
+                                 check=True,
                                  stdout=subprocess.PIPE,
                                  text=True).stdout
             if var == '':
@@ -60,12 +62,18 @@ class RubyBenchmark:
             else:
                 self.benchmark_score['complete'] = True
                 try:
-                    assert var == self.target_output
+                    assert str(var) == str(self.target_output)
+                    print("correct start")
                     self.benchmark_score["correctness"] = True
+                    print("space")
                     self.__space_complexity__()
+                    print("time")
                     self.__time_complexity__()
+                    print("detailed")
                     self.__detailed_profiling__()
-                except AssertionError:
+                    print("end")
+                except (AssertionError, Exception) as e:
+                    print(e)
                     self.benchmark_score["correctness"] = False
         except subprocess.CalledProcessError:
             pass
@@ -89,7 +97,7 @@ class RubyBenchmark:
         :return:
         """
         setup_code = 'from codeAnalyzer.Ruby.TimeitExecuter import Testing'
-        stmt_code = "Testing.setup(" + self.params + ")"
+        stmt_code = "Testing.setup(" + "'" + str(self.params) + "'" + ")"
         time = timeit.repeat(stmt=stmt_code, setup=setup_code, repeat=__REPEAT__, number=__NUMBER__)
         self.benchmark_score['time'] = time
 

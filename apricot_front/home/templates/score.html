@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/style.css">
+    {#    fonts#}
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Domine:wght@700&family=Nunito:wght@400;800&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@700&display=swap" rel="stylesheet">
+    {#    icons#}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+
+
+    <title>Dashboard</title>
+</head>
+<body>
+<!-- As a heading -->
+<nav class="navbar navbar-light navbar-fixed-top" style="margin: 0">
+    <div class="container-fluid">
+        <img class="navbar-brand" height="60" width="200" src="/static/images/logo-alt.svg"
+             style="margin: 0;padding: 0;cursor: pointer"
+             onclick="window.location.href='http://localhost:8001/dashboard'">
+        <span style="font-family: 'Work Sans', sans-serif;"
+              class="text-muted text-capitalize">{{ user.username }}
+            {% if  user.is_superuser %}
+                <img src="/static/images/admin.png" height="30"
+                     width="30"
+                     class="m-2 rounded-circle border border-secondary">
+
+            {% endif %}
+
+            <i class="bi bi-box-arrow-left" style="cursor: pointer"
+               onclick="window.location.href='http://localhost:8001/logout'"></i>
+        </span>
+
+    </div>
+</nav>
+
+
+{% if user.is_superuser %}
+    <div class="container" style="font-family: 'Nunito', sans-serif;">
+        <div class="row" >
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="text-muted">User Details</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th scope="row">First Name</th>
+                                <td>{{ data.submission.user_id.first_name }}</td>
+
+                            </tr>
+                            <tr>
+                                <th scope="row">Last Name</th>
+                                <td>{{ data.submission.user_id.last_name }}</td>
+
+                            </tr>
+                            <tr>
+                                <th scope="row">Username</th>
+                                <td>{{ data.submission.user_id.username }}</td>
+
+                            </tr>
+                            <tr>
+                                <th scope="row">Email</th>
+                                <td>{{ data.submission.user_id.email }}</td>
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="row">
+                <div class="col">
+                    <h5 class="text-muted">Assigned Question</h5>
+                </div>
+            </div>
+            <div class="col">
+                <div class="alert alert-info">
+                    {{ question.details }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h5 class="text-success">Test Input Given:</h5>
+                <div class="alert alert-success">{{ question.inputs|truncatechars:100 }}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h5 class="text-success">Test Output Expected</h5>
+                <div class="alert alert-success" role="alert">
+                    <p>{{ question.output|truncatechars:100 }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col">
+                <div class=" order-md-last">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-muted">Score</span>
+                        {% if data.score == highest.highest %}
+                        <span class="badge rounded-pill bg-success">A+</span>
+                        {% endif %}
+                        <span class="badge bg-secondary rounded-pill">{{ data.score }}
+
+                        </span>
+
+                    </h4>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">Time Complexity</h6>
+                                <small class="text-muted">(Average of 5 iterations)Lower Is Better</small>
+                            </div>
+                            <span class="text-muted">{{ data.time_complexity }} s</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">Space Complexity</h6>
+                                <small class="text-muted">Lower Is Better</small>
+                            </div>
+                            <span class="text-muted">{{ data.space_complexity }} MB</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">Complete</h6>
+                                <small class="text-muted">True if yes, False if no</small>
+                            </div>
+                            <span class="text-muted">{{ data.completeness }}</span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">Correctness</h6>
+                                <small class="text-muted">True if yes, False if no</small>
+                            </div>
+                            <span class="text-muted">{{ data.correctness }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">Language</h6>
+                                <small class="text-muted">Python or Ruby</small>
+                            </div>
+                            <span class="text-muted">{% if data.submission.language_type == 1 %}Python {% else %}
+                                Ruby{% endif %}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">Repository URL</h6>
+                                <small class="text-muted">HTTPS url </small>
+                            </div>
+                            <span class="text-muted">{{ data.submission.repo_url }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-light">
+                            <div class="text-success">
+                                <h6 class="my-0">Highest Score</h6>
+                                <small>Highest Score Secured For Question #{{ question.id }}</small>
+                            </div>
+                            <span class="text-success">{{ highest.highest }}</span>
+                        </li>
+                    </ul>
+
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+{% endif %}
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+<script src="/static/js/jQuery.js"></script>
+<script src="/static/js/script.js">
+
+</script>
+</html>

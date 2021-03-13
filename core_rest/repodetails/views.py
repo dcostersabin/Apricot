@@ -38,7 +38,7 @@ def refresh_repo(request):
             return Response("Invalid Account Type", status=HTTP_400_BAD_REQUEST)
 
     if request.method == 'GET':
-        if not request.user.is_staff and request.user.is_superuser:
+        if not request.user.is_staff and not request.user.is_superuser:
             user = request.user
             repo_details = RepoDetail.objects.filter(user_id=user)
             data = [repo.serializer() for repo in repo_details]

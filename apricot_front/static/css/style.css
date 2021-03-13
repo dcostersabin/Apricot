@@ -1,0 +1,16 @@
+.column {
+    float: left;
+    width: 50%;
+    height: 100vh;
+}
+
+/* Clear floats after the columns */
+.custom-row:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.blue {
+    background: #263671 repeat;
+}

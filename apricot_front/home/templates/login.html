@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/style.css">
+    {#    fonts#}
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Domine:wght@700&family=Nunito:wght@400;800&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+
+    <title>Login</title>
+</head>
+<body>
+<div class="custom-row">
+    <div class="column blue">
+        <div class="container">
+            <img src="/static/images/logo.png" alt="" width="20%" class="img-responsive m-5"
+                 onclick="window.location.href='/'" style="cursor: pointer">
+        </div>
+        <div class="container" style="margin: 20%">
+            <h1 style="color: #00DAF7 ;font-family: 'Domine', serif;">"</h1>
+            <p style="color: #FFFFFF;padding-left: 4%;font-family: 'Inter', sans-serif;width:50%;line-height: 45px;float:left">
+                Our engagement models are customer-centric and comprehensive.
+                We've worked on complex projects and built products from the ground up with consistently
+                high-quality results.
+            </p>
+            <h1 style="margin-top: 15% ;color: #FFFFFF"><b>]</b></h1>
+        </div>
+    </div>
+    <div class="column">
+        <div class="container">
+            <div class="m-5" style="font-family: 'Inter', sans-serif; color: #6A6A6A;cursor: pointer"><h5
+                    onclick="window.location.href='/'">< &nbsp;&nbsp;Back</h5></div>
+        </div>
+        <div class="container">
+            <form action="/login" method="post">
+                <div class="col" style="padding-top: 15%;margin-left: 15%">
+                    <div style="font-family: 'Nunito', sans-serif;">
+                        <h2>Github Account Is Required For<br>Login!</h2>
+                        <p class="text-muted">For the purpose of Login your details are required</p>
+                    </div>
+                    <div class="col mt-4" style="width: 60%">
+                        <p class="text-muted">Email Address*</p>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter Your Email Address" name="email">
+                        </div>
+                    </div>
+                    <div class="col mt-4" style="width: 60%">
+                        <p class="text-muted">Password*</p>
+                        <div class="input-group mb-3">
+                            <input type="password" class="form-control" placeholder="Enter Your Password" name="password">
+                        </div>
+                    </div>
+                </div>
+                <div class="col text-center"
+                     style="margin-left: 15%; margin-top: 5%; width: 50% ;font-family: 'Nunito', sans-serif;">
+                    <button class="btn btn-outline-primary" style="border-color: #263671;color: #263671"><b>Login</b>
+                    </button>
+                    <br>
+                    <br>
+                    <small class="text-muted">Your Info is safely secured</small>
+                    <br>
+                    <br>
+                    <small class="text-muted">Or</small>
+                </div>
+            </form>
+            <div class="col text-muted text-center"
+                 style="margin-left: 15%; margin-top: 5%; width: 50% ;font-family: 'Nunito', sans-serif;">
+
+            </div>
+            <div class="col text-muted text-center"
+                 style="margin-left: 15%; width: 50% ;font-family: 'Nunito', sans-serif;">
+                <button class="btn btn-outline-secondary"
+                        onclick="window.location.href='http://localhost:8000/oauth/github/login/?process=login'"><i
+                        class="bi bi-github"></i> &nbsp;Sign in with Github
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

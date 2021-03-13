@@ -7,6 +7,7 @@ from allauth.socialaccount.models import SocialToken
 from repodetails.models import RepoDetail
 from codeAnalyzer.AllBenchmark.Benchmark import Benchmark as CodeAnalyzer
 import math
+from questions.models import Question
 
 
 # Create your views here.
@@ -73,9 +74,14 @@ def benchmark_submission(request, submission_id):
                         total_score += (10 / benchmark_score['memory'])
                         bench.cprofile = benchmark_score['detailed_profiling'].to_dict()
                         detailed_profiling = benchmark_score["detailed_profiling"].iloc[:, 0]
+                        print(detailed_profiling)
+                        detailed_profiling = [int(str(i).split("/")[0]) for i in detailed_profiling]
                         # adding small number with respect to function call to break uniformity
                         uniformity_breaker += (sum(detailed_profiling) * uniformity_breaker)
-                    total_score = round(total_score, -2)
+                    if total_score > 1000:
+                        total_score = round(total_score, -2)
+                    else:
+                        total_score = round(total_score, -1)
                     total_score = total_score + uniformity_breaker
                     bench.score = total_score
                     bench.submission_id = sub
@@ -92,9 +98,24 @@ def benchmark_submission(request, submission_id):
     if request.method == 'GET':
         if request.user.is_staff or request.user.is_superuser:
             try:
-                bench = Benchmark.objects.get(pk=submission_id)
+                bench = Benchmark.objects.get(submission_id_id=submission_id)
                 return Response(bench.serialized())
             except Benchmark.DoesNotExist:
                 return Response("Invalid Key", status=HTTP_400_BAD_REQUEST)
         else:
             return Response("Not Allowed", status=HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def highest(request, question_id):
+    if request.user.is_staff or request.user.is_superuser:
+        try:
+            question_check = Question.objects.get(pk=question_id)
+            bench = Benchmark.objects.filter(submission_id__question_id_id=question_id).order_by('score')
+            bench = bench.last()
+            data = {'highest': bench.score}
+            return Response(data)
+        except Question.DoesNotExist:
+            return Response("Invalid Key", status=HTTP_400_BAD_REQUEST)
+    else:
+        return Response("Not Allowed", status=HTTP_400_BAD_REQUEST)

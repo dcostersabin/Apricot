@@ -44,6 +44,10 @@ def submission_one(request, submission_id):
                         # if not provided url is from third party
                         try:
                             repo_details = RepoDetail.objects.get(clone_url=request.POST['url'], user_id=request.user)
+                            if repo_details.language == 'Python':
+                                sub.language_type = 1
+                            elif repo_details.language == 'Ruby':
+                                sub.language_type = 2
                             sub.repo_url = repo_details.clone_url
                             sub.save()
                             return Response("Submitted Successfully")

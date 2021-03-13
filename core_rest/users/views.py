@@ -6,6 +6,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import logout
 from django.http.response import JsonResponse
 from users.models import User
+from django.shortcuts import redirect
 
 
 @login_required(login_url='/root')
@@ -50,3 +51,16 @@ def user_info_admin(request, user_id):
             return Response("Invalid Key", status=HTTP_400_BAD_REQUEST)
     else:
         return Response("Not Allowed", status=HTTP_401_UNAUTHORIZED)
+
+
+@login_required(login_url='/root')
+def frontend(request):
+    refresh = RefreshToken.for_user(request.user)
+    access_token = refresh.access_token
+    logout(request)
+    frontend_server = 'http://localhost:8001/oauth/verified/' + str(refresh) + '/' + str(access_token)
+    return redirect(frontend_server)
+
+
+def frontend_logout():
+    return redirect('http://localhost:8001/')

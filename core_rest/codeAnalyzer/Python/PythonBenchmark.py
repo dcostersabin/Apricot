@@ -35,9 +35,9 @@ class PythonBenchmark:
                                            repo_name=repo_name).clone_check()
         self.benchmark_score = {"complete": False, "correctness": False, "time": None, "memory": None,
                                 "detailed_profiling": None}
-        self.target_output = expected_output
+        self.target_output = str(expected_output)
         self.calculated_output = None
-        self.params = params
+        self.params = str(params)
 
     def start(self):
         """
@@ -56,9 +56,9 @@ class PythonBenchmark:
         Measures the time taken by the code to execute for __REPEAT__ times
         :return: None
         """
-        params = self.params
+        params = '"' + self.params + '"'
         setup_code = "from codeAnalyzer.temp.test import Testing"
-        stmt_code = "Testing.setup(" + str(params) + ")"
+        stmt_code = "Testing.setup(" + params + ")"
         time = timeit.repeat(stmt=stmt_code, setup=setup_code, repeat=__REPEAT__, number=__NUMBER__)
         self.benchmark_score['time'] = time
 
@@ -69,7 +69,7 @@ class PythonBenchmark:
         """
         from codeAnalyzer.temp.test import Testing
         tracemalloc.start()
-        Testing.setup(self.params)
+        Testing.setup(str(self.params))
         current, peak = tracemalloc.get_traced_memory()
         tracemalloc.stop()
         self.benchmark_score['memory'] = peak / 10 ** 6
@@ -80,7 +80,7 @@ class PythonBenchmark:
         :return: None
         """
         from codeAnalyzer.temp.test import Testing
-        result = Testing.setup(self.params)
+        result = Testing.setup(str(self.params))
         if result is not None:
             self.benchmark_score["complete"] = True
             try:
@@ -89,7 +89,8 @@ class PythonBenchmark:
                 self.__time_complexity__()
                 self.__detailed_profiling__()
                 self.__space_complexity__()
-            except AssertionError:
+            except (AssertionError, Exception)as e:
+                print(e)
                 self.benchmark_score["correctness"] = False
 
     def __test__(self):
@@ -98,7 +99,7 @@ class PythonBenchmark:
         :return: None
         """
         from codeAnalyzer.temp.test import Testing
-        a = Testing.setup(self.params)
+        a = Testing.setup(str(self.params))
 
     def __detailed_profiling__(self):
         """

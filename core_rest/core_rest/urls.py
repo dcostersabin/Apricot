@@ -28,6 +28,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('oauth/', include('allauth.urls')),
     path('token/', userview.token),
+    path('frontend/', userview.frontend),
     path('log-out/', userview.logout),
     path('auth/token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/refresh', TokenRefreshView.as_view(), name='token_refresh'),
@@ -36,5 +37,6 @@ urlpatterns = [
     path('questions/', include(questions)),
     path('submission/', include(submission)),
     path('benchmarks/', include(benchmark)),
+    path('log-out/frontend', userview.frontend_logout,)
 
 ]
