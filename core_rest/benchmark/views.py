@@ -25,6 +25,7 @@ def benchmark(request):
 
 @api_view(['POST', 'GET'])
 def benchmark_submission(request, submission_id):
+
     if request.method == 'POST':
         if request.user.is_staff or request.user.is_superuser:
             try:
@@ -74,10 +75,10 @@ def benchmark_submission(request, submission_id):
                         total_score += (10 / benchmark_score['memory'])
                         bench.cprofile = benchmark_score['detailed_profiling'].to_dict()
                         detailed_profiling = benchmark_score["detailed_profiling"].iloc[:, 0]
-                        print(detailed_profiling)
                         detailed_profiling = [int(str(i).split("/")[0]) for i in detailed_profiling]
                         # adding small number with respect to function call to break uniformity
                         uniformity_breaker += (sum(detailed_profiling) * uniformity_breaker)
+                        print(total_score)
                     if total_score > 1000:
                         total_score = round(total_score, -2)
                     else:

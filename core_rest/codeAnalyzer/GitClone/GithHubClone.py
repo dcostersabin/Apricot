@@ -20,7 +20,7 @@ class RepoClone:
         self.username = username
         self.access_token = access_token
         self.repo_name = repo_name
-        self.path = str(BASE_DIR + '/temp/')
+        self.path = str(BASE_DIR + '/temp')
 
     def __check_path__(self):
         if path.exists(self.path):
@@ -38,13 +38,12 @@ class RepoClone:
         if url_check.host == 'github.com':
             try:
                 __CLONE_URL__ = "https://" + self.username + ":" + self.access_token + "@github.com/" + self.username + "/" + self.repo_name + ".git"
-                # giving the cloning process only 10 second as it only downloads single file over the network
-                var = subprocess.run(["git", "clone", __CLONE_URL__, self.path], check=True, stdout=subprocess.PIPE,
+                # giving the cloning process only 15 second as it only downloads single file over the network
+                var = subprocess.run(["git", "clone", __CLONE_URL__, self.path], check=True,
+                                     stdout=subprocess.PIPE,
                                      timeout=15).stdout
                 return True
-            except (subprocess.CalledProcessError, subprocess.TimeoutExpired):
+            except (subprocess.CalledProcessError, subprocess.TimeoutExpired, Exception) as e:
                 return False
         else:
             return False
-
-

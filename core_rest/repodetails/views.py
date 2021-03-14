@@ -15,7 +15,7 @@ def refresh_repo(request):
             # delete all the previous records
             repo_details_prev = RepoDetail.objects.filter(user_id=user).delete()
             social_user_token = SocialToken.objects.get(account__user=user)
-            url = "https://api.github.com/search/repositories?q=user:" + user.username
+            url = "https://api.github.com/search/repositories?q=user:" + user.username + "&per_page=200"
             r = requests.get(url, headers={'Authorization': 'token ' + social_user_token.token})
             data = r.json()
             for obj in data['items']:

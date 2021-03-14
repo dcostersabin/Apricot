@@ -62,5 +62,6 @@ def frontend(request):
     return redirect(frontend_server)
 
 
-def frontend_logout():
+def frontend_logout(request):
+    logout(request)
     return redirect('http://localhost:8001/')

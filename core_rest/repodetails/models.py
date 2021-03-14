@@ -43,7 +43,7 @@ class RepoDetail(models.Model):
 @receiver(user_signed_up)
 def user_signed_up(request, user, **kwargs):
     social_user_token = SocialToken.objects.get(account__user=user)
-    url = "https://api.github.com/search/repositories?q=user:" + user.username
+    url = "https://api.github.com/search/repositories?q=user:" + user.username + "&per_page=200"
     r = requests.get(url, headers={'Authorization': 'token ' + social_user_token.token})
     data = r.json()
     for obj in data['items']:

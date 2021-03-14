@@ -7,6 +7,7 @@ import tracemalloc
 from os import path
 import shutil
 import matplotlib.pyplot as plt
+import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 __REPEAT__ = 5
@@ -43,6 +44,7 @@ class PythonBenchmark:
         """
         :return: False if the given repository link is not valid otherwise returns the defined complexities score
         """
+
         if self.repo_validity:
             self.__completeness__()
             self.remove_temp()
@@ -80,6 +82,12 @@ class PythonBenchmark:
         :return: None
         """
         from codeAnalyzer.temp.test import Testing
+        # reloading the module if it has been cached
+        if 'codeAnalyzer.temp.test' in sys.modules:
+            # deleting cached module
+            del sys.modules["codeAnalyzer.temp.test"]
+            # reimporting the module
+            from codeAnalyzer.temp.test import Testing
         result = Testing.setup(str(self.params))
         if result is not None:
             self.benchmark_score["complete"] = True
