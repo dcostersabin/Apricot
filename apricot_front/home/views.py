@@ -248,3 +248,59 @@ def add_question(request):
     except KeyError:
         messages.warning(request, 'Invalid Data Given')
         return redirect('dash')
+
+
+def reset(request):
+    try:
+        token = request.COOKIES['token']
+    except KeyError:
+        return render(request, 'home.html')
+
+    head = {'Authorization': 'Bearer ' + token}
+
+    response = requests.get(url=__SERVER_URL__ + 'user', headers=head)
+    if response.status_code == 401:
+        data = {'refresh': request.COOKIES['refresh']}
+        refresh_response = requests.post(url=__SERVER_URL__ + 'auth/refresh', data=data)
+        if refresh_response.status_code >= 400:
+            return redirect('home')
+        refresh = refresh_response.json()
+        token = refresh['access']
+    head = {'Authorization': 'Bearer ' + token}
+
+    reset_last = requests.post(url=__SERVER_URL__ + 'demo/reset', headers=head)
+    re = reset_last.json()
+    if reset_last.status_code == 200:
+        messages.success(request, re)
+        return redirect('dash')
+    else:
+        messages.warning(request, 'Something Went Wrong Try Again')
+        return redirect('dash')
+
+
+def assign(request):
+    try:
+        token = request.COOKIES['token']
+    except KeyError:
+        return render(request, 'home.html')
+
+    head = {'Authorization': 'Bearer ' + token}
+
+    response = requests.get(url=__SERVER_URL__ + 'user', headers=head)
+    if response.status_code == 401:
+        data = {'refresh': request.COOKIES['refresh']}
+        refresh_response = requests.post(url=__SERVER_URL__ + 'auth/refresh', data=data)
+        if refresh_response.status_code >= 400:
+            return redirect('home')
+        refresh = refresh_response.json()
+        token = refresh['access']
+    head = {'Authorization': 'Bearer ' + token}
+
+    assign = requests.post(url=__SERVER_URL__ + 'demo/assign', headers=head)
+    re = assign.json()
+    if assign.status_code == 200:
+        messages.success(request, re)
+        return redirect('dash')
+    else:
+        messages.warning(request, 'Something Went Wrong Try Again')
+        return redirect('dash')

@@ -13,4 +13,6 @@ urlpatterns = [
     path('benchmark/<str:submission_id>', v.benchmark),
     path('view_score/<str:submission_id>', v.view_score),
     path('add_question', v.add_question),
+    path('reset', v.reset),
+    path('assign', v.assign),
 ]

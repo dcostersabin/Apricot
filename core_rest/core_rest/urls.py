@@ -22,6 +22,7 @@ import users.urls as user
 import questions.urls as questions
 import submission.urls as submission
 import benchmark.urls as benchmark
+import demo.urls as demo
 
 urlpatterns = [
     path('root/', userview.bad_request, name='root'),
@@ -37,6 +38,7 @@ urlpatterns = [
     path('questions/', include(questions)),
     path('submission/', include(submission)),
     path('benchmarks/', include(benchmark)),
-    path('log-out/frontend', userview.frontend_logout,)
+    path('log-out/frontend', userview.frontend_logout, ),
+    path('demo/',include(demo)),
 
 ]

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'repodetails',
     'codeAnalyzer',
+    'demo',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
